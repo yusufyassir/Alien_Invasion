@@ -1,12 +1,15 @@
 import sys
 import pygame
 
+from settings import Settings
+
 class AlienIvasion:
     """overall class to manage game assets and behaviour"""
     def __init__(self):
         """initialize the game, and create game resources"""
         pygame.init()
-        self.screen = pygame.display.set_mode((1200, 620))
+        self.settings = Settings()
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_hight))
         pygame.display.set_caption("Alien Invasion")
 
         #set background color
@@ -19,7 +22,7 @@ class AlienIvasion:
                 if event.type == pygame.QUIT:
                     sys.exit()
             #redraw screen through each pass of looop
-            self.screen.fill(self.bg_color)
+            self.screen.fill(self.settings.bg_color)
             #make most recet screen drawn
             pygame.display.flip()
 
