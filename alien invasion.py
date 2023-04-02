@@ -10,7 +10,11 @@ class AlienIvasion:
         """initialize the game, and create game resources"""
         pygame.init()
         self.settings = Settings()
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_hight))
+        #to adjust to full screen mode if wanted
+        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+        #self.settings.screen_width = self.screen.get_rect().width
+        #self.settings.screen_height = self.screen.get_rect().height
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
@@ -32,7 +36,7 @@ class AlienIvasion:
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
-                self._check_keyup_events
+                self._check_keyup_events(event)
 
     def _check_keydown_events(self, event):
         """responds to key presses"""
