@@ -3,6 +3,8 @@ import pygame
 
 from settings import Settings
 from ship import Ship
+from bullet import Bullet
+from alien import Alien
 
 class AlienIvasion:
     """overall class to manage game assets and behaviour"""
@@ -18,12 +20,17 @@ class AlienIvasion:
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
+        self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
         
     def run_game(self):
         """start the game main loop"""
         while True:
             self._check_events()
             self.ship.update()
+            self._update_bullets()
             self._update_sceen()
          
 
@@ -46,21 +53,47 @@ class AlienIvasion:
             self.ship.moving_left = True
         elif event.key == pygame.K_q:
             sys.exit()
+        elif event.key == pygame.K_SPACE:
+            self._fire_bullet()
 
     def _check_keyup_events(self, event):
+
         """responds to key releases"""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         if event.key == pygame.K_LEFT:
             self.ship.moving_left = False
 
+    def _create_fleet(self):
+        """create fleet of aliens"""
+        #make alian
+        alien = Alien(self)
+        self.aliens.add(alien)
+
     def _update_sceen(self):
         """update images on screen"""
         self.screen.fill(self.settings.bg_color)
         self.ship.bltime()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
+        self.aliens.draw(self.screen)
         #make most recet screen drawn
         pygame.display.flip()
 
+    def _fire_bullet(self):
+        """create new bullet and add it to bullet group"""
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
+    
+    def _update_bullets(self):
+        """update position of bullets and ge rid of old"""
+        #update bullet positions.
+        self.bullets.update()
+        #get rid of disapperd bullets
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
 
 if __name__ == '__main__':
     #make game instance and run ngame
