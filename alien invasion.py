@@ -67,31 +67,8 @@ class AlienIvasion:
 
     def _create_fleet(self):
         """create fleet of aliens"""
-        #make alian and find number of aliena in a row
-        #space between each alien is equal t 1 alien wdth
+        #make alian
         alien = Alien(self)
-        alien_width, alien_height = alien.rect.size
-        available_space_x = self.settings.screen_width - (2 * alien_width)
-        number_aliens_x = available_space_x // ( 2 * alien_width)
-
-        #etermine the number of rows of aliena that fit on screen
-        ship_hight = self.ship.rect.height
-        available_space_y = (self.settings.screen_height -
-                                    (3 * alien_height) - ship_hight)
-        number_rows = available_space_y // (2 * alien_height)
-
-        # create the first row of aliens
-        for row_number in range(number_rows):
-            for alien_number in range(number_aliens_x):
-                self._create_alien(alien_number, row_number)
-
-    def _create_alien(self, alien_number, row_number):
-        """create an alien and place it in row"""
-        alien = Alien(self)
-        alien_width, alien_height = alien.rect.size
-        alien.x = alien_width + 2 * alien_width * alien_number
-        alien.rect.x = alien.x
-        alien.rect.y = alien.rect.height + 2 * alien.rect.height * row_number
         self.aliens.add(alien)
 
     def _check_fleet_edges(self):
