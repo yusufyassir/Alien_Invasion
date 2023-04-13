@@ -131,20 +131,28 @@ class AlienIvasion:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
-        #check for any bullets that have hit aliens.
-        #if so get rid of bullet and alien
+        
+        self._check_bullet_alien_collisions()
+       
+    def _check_bullet_alien_collisions(self):
+        """respond to bullet alien collision"""
+        #remove bullets and alien s that have collided
         collisions = pygame.sprite.groupcollide(
-                self.bullets, self.aliens, False, True)
+                self.bullets, self.aliens, True, True)
         if not self.aliens:
             #destroy remaining bullets and crete new fleet
             self.bullets.empty()
-            self._create_fleet(  )
+            self._create_fleet()
                 
     def _update_aliens(self):
         """check if the fleet is at an edge 
             then ipdate the position of all aliens in the fleet"""
         self._check_fleet_edges()
         self.aliens.update()
+
+        #look for alien ship collisions
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("ship hit!!!")
 if __name__ == '__main__':
     #make game instance and run ngame
     ai = AlienIvasion()
