@@ -184,7 +184,18 @@ class AlienIvasion:
     def _check_play_button(self, mouse_pos):
         """start ne w game when the player clicks play"""
         if self.play_button.rect.collidepoint(mouse_pos):
+            #reset game statistics
+            self.stats.reset_stats()
             self.stats.game_active = True
+            
+            #git rid of remainig aliens and bulets.
+            self.aliens.empty()
+            self.aliens.empty()
+
+            #creat a new fleet aand center the ship
+            self._create_fleet()
+            self.ship.center_ship()
+            
 
     def _check_aliens_bottom(self):
         """check if any alien sreached bottom of the screen"""
