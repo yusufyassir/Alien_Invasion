@@ -163,6 +163,7 @@ class AlienIvasion:
             #destroy remaining bullets and crete new fleet
             self.bullets.empty()
             self._create_fleet()
+            self.settings.increase_speed()
 
     def _ship_hit(self):
         """respond to the ship being ht by an alien"""
@@ -193,6 +194,7 @@ class AlienIvasion:
     def _start_game(self):
         """resets the game"""
         #reset game statistics
+        self.settings.initialize_dynamic_settings()
         self.stats.reset_stats()
         self.stats.game_active = True
                     

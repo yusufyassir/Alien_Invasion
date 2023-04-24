@@ -10,12 +10,12 @@ class Settings:
         #ship settings
         self.ship_limit = 3
         #bullet settings
-        self.bullet_width = 20
+        self.bullet_width = 1000
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)
         self.bullets_allowed = 3
         #alien settingd
-        self.fleet_drop_speed = 6
+        self.fleet_drop_speed = 10
 
         #how quickly the game speeds up
         self.sppedup_scale = 1.1
@@ -30,5 +30,10 @@ class Settings:
 
         #fleet direction of 1 is right, -1 is left
         self.fleet_direction = 1
-
+    
+    def increase_speed(self):
+        """increase  speed settings"""
+        self.ship_speed *= self.sppedup_scale
+        self.bullet_speed *= self.sppedup_scale
+        self.alien_speed *= self.sppedup_scale
         
