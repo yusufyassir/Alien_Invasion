@@ -167,19 +167,25 @@ class AlienIvasion:
                 self.bullets, self.aliens, True, True)
         
         if collisions:
-            self.stats.score += self.settings.alien_points
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
+            self.sb.check_high_score()
         if not self.aliens:
             #destroy remaining bullets and crete new fleet
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
+            #increase level.
+            self.stats.level += 1
+            self.sb.prep_level()
 
     def _ship_hit(self):
         """respond to the ship being ht by an alien"""
         if self.stats.ships_left > 0:
-            #decrement ships left
+            #decrement ships left and update scoreboard
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             #get rid of any remaining bullets and aliens
             self.aliens.empty()
@@ -203,11 +209,13 @@ class AlienIvasion:
 
     def _start_game(self):
         """resets the game"""
-        #reset game statistics
+        #reset g ame statistics
         self.settings.initialize_dynamic_settings()
         self.stats.reset_stats()
         self.stats.game_active = True
         self.sb.prep_score()
+        self.sb.prep_level()
+        self.sb.prep_ships()
                     
         #git rid of remainig aliens and bulets.
         self.aliens.empty()
