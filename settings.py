@@ -10,9 +10,9 @@ class Settings:
         #ship settings
         self.ship_limit = 3
         #bullet settings
-        self.bullet_width = 1000
+        self.bullet_width = 5
         self.bullet_height = 15
-        self.bullet_color = (60, 60, 60)
+        self.bullet_color = (230, 60, 60)
         self.bullets_allowed = 3
         #alien settingd
         self.fleet_drop_speed = 10
