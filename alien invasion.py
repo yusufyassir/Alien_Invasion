@@ -9,6 +9,7 @@ from alien import Alien
 from game_stats import GameStats
 from button import Button
 from scoreboard import Scoreboard
+from music import Music
 
 class AlienIvasion:
     """overall class to manage game assets and behaviour"""
@@ -29,6 +30,9 @@ class AlienIvasion:
         self.sb = Scoreboard(self)
         #make play button
         self.play_button = Button(self, "play")
+
+        #make music
+        self.bg_music = Music(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -140,6 +144,8 @@ class AlienIvasion:
         #draw the play button if the game is inactive
         if not self.stats.game_active:
             self.play_button.draw_button()
+            #pause music
+            self.bg_music.pause()
         #make most recet screen drawn
         pygame.display.flip()
 
@@ -208,6 +214,7 @@ class AlienIvasion:
             self._start_game()
 
     def _start_game(self):
+        self.bg_music.play()
         """resets the game"""
         #reset g ame statistics
         self.settings.initialize_dynamic_settings()
