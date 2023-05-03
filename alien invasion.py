@@ -18,10 +18,10 @@ class AlienIvasion:
         pygame.init()
         self.settings = Settings()
         #to adjust to full screen mode if wanted
-        self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-        self.settings.screen_width = self.screen.get_rect().width
-        self.settings.screen_height = self.screen.get_rect().height
-        #self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
+        #self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+        #self.settings.screen_width = self.screen.get_rect().width
+        #self.settings.screen_height = self.screen.get_rect().height
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
 
         #create an instance to score game statistics, 
@@ -32,7 +32,8 @@ class AlienIvasion:
         self.play_button = Button(self, "play")
 
         #make music
-        self.bg_music = Music(self)
+        self.music = Music(self)
+
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -145,13 +146,14 @@ class AlienIvasion:
         if not self.stats.game_active:
             self.play_button.draw_button()
             #pause music
-            self.bg_music.pause()
+            self.music.pause_bg()
         #make most recet screen drawn
         pygame.display.flip()
 
     def _fire_bullet(self):
         """create new bullet and add it to bullet group"""
         if len(self.bullets) < self.settings.bullets_allowed:
+            self.music.play_bl()
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
     
@@ -173,6 +175,7 @@ class AlienIvasion:
                 self.bullets, self.aliens, True, True)
         
         if collisions:
+            self.music.play_ex()
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
@@ -214,7 +217,7 @@ class AlienIvasion:
             self._start_game()
 
     def _start_game(self):
-        self.bg_music.play()
+        self.music.play_bg()
         """resets the game"""
         #reset g ame statistics
         self.settings.initialize_dynamic_settings()
